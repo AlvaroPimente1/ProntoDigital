@@ -8,5 +8,6 @@ namespace ProdutoProntoDigital.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
     }
 }

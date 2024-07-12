@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ProdutoProntoDigital.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+<h1>Categorias</h1>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Adicionar Categoria</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var categoria in Model)
+        {
+            <tr>
+                <td>@categoria.CAT_ID</td>
+                <td>@categoria.CAT_NOME</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -14,9 +14,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()
     ));
 
-
-// Register the ProdutoService with the service container
+// Services
 builder.Services.AddScoped<ProdutoService>();
+builder.Services.AddScoped<CategoriaServices>();
 
 var app = builder.Build();
 
@@ -34,8 +34,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Update the default route to point to Produto/Index
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Produto}/{action=Index}/{id?}");
 
 app.Run();

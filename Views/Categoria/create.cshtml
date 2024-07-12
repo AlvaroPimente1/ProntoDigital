@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Create Categoria";
+}
+
+<h1>Create Categoria</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="catNome">Nome da Categoria</label>
+        <input type="text" class="form-control" id="catNome" name="catNome" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
