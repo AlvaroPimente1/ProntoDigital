@@ -13,6 +13,11 @@ namespace ProdutoProntoDigital.Controllers
             _produtoService = produtoService;
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Index()
         {
             var produtos = await _produtoService.GetAllProducts();

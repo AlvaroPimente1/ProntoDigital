@@ -19,13 +19,11 @@ namespace ProdutoProntoDigital.Controllers
             return View(categorias);
         }
 
-        // Ação GET para exibir o formulário de criação
         public IActionResult Create()
         {
             return View();
         }
 
-        // Ação POST para criar uma nova categoria
         [HttpPost]
         public async Task<IActionResult> Create(string catNome)
         {
