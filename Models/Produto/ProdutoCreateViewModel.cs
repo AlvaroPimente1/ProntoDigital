@@ -1,14 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ProdutoProntoDigital.Models
 {
-    public class Produto
+    public class ProdutoCreateViewModel
     {
-        [Key]
-        public int PROD_ID { get; set; }
-
         [Required(ErrorMessage = "O nome do produto é obrigatório")]
         public string PROD_NOME { get; set; }
 
@@ -22,9 +17,5 @@ namespace ProdutoProntoDigital.Models
 
         [Required(ErrorMessage = "A categoria do produto é obrigatória")]
         public int CAT_ID { get; set; }
-
-        [NotMapped]
-        [BindNever]
-        public string NomeCategoria { get; set; }
     }
 }
