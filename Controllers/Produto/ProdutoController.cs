@@ -11,17 +11,15 @@ namespace ProdutoProntoDigital.Controllers
     public class ProdutoController : Controller
     {
         private readonly ProdutoService _produtoService;
-        private readonly ILogger<ProdutoController> _logger;
 
         public ProdutoController(ProdutoService produtoService, ILogger<ProdutoController> logger)
         {
             _produtoService = produtoService;
-            _logger = logger;
         }
 
         public async Task<IActionResult> Create()
         {
-            var categorias = await _produtoService.GetAllCategories();
+            var categorias = await _produtoService.GetAllActiveCategorias();
             ViewBag.Categorias = categorias.Select(c => new SelectListItem
             {
                 Value = c.CAT_ID.ToString(),
@@ -35,11 +33,9 @@ namespace ProdutoProntoDigital.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProdutoCreateViewModel produtoViewModel)
         {
-            _logger.LogInformation("Create method called");
 
             if (ModelState.IsValid)
             {
-                _logger.LogInformation("ModelState is valid");
 
                 var produto = new Produto
                 {
@@ -50,20 +46,10 @@ namespace ProdutoProntoDigital.Controllers
                 };
 
                 await _produtoService.CreateProduct(produto);
-                _logger.LogInformation("Product created successfully");
                 return RedirectToAction(nameof(Index));
             }
 
-            _logger.LogWarning("ModelState is invalid");
-            foreach (var state in ModelState)
-            {
-                foreach (var error in state.Value.Errors)
-                {
-                    _logger.LogWarning("Validation error on {Field}: {Error}", state.Key, error.ErrorMessage);
-                }
-            }
-
-            var categorias = await _produtoService.GetAllCategories();
+            var categorias = await _produtoService.GetAllActiveCategorias();
             ViewBag.Categorias = categorias.Select(c => new SelectListItem
             {
                 Value = c.CAT_ID.ToString(),

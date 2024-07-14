@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProdutoProntoDigital.Models;
 using ProdutoProntoDigital.Services;
 using System.Threading.Tasks;
 
@@ -15,7 +16,13 @@ namespace ProdutoProntoDigital.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var categorias = await _categoriaServices.GetAllCategorias();
+            var categorias = await _categoriaServices.GetAllActiveCategorias();
+            return View(categorias);
+        }
+
+        public async Task<IActionResult> Inactives()
+        {
+            var categorias = await _categoriaServices.GetAllInactiveCategorias();
             return View(categorias);
         }
 
@@ -34,5 +41,18 @@ namespace ProdutoProntoDigital.Controllers
             }
             return View(catNome);
         }
+
+        public async Task<IActionResult> Inactivate(int id)
+        {
+            await _categoriaServices.InactivateCategoria(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Activate(int id)
+        {
+            await _categoriaServices.ActivateCategoria(id);
+            return RedirectToAction(nameof(Inactives));
+        }
+
     }
 }

@@ -1,15 +1,12 @@
 ﻿@model IEnumerable<ProdutoProntoDigital.Models.Categoria>
 
 @{
-    ViewData["Title"] = "Categorias";
+    ViewData["Title"] = "Categorias Inativas";
 }
 
 <div class="container mt-5">
     <h2>@ViewData["Title"]</h2>
-    <div class="d-flex mb-3">
-        <a asp-action="Create" class="btn btn-success mr-3">Nova Categoria</a>
-        <a asp-action="Inactives" class="btn btn-danger">Categorias Inativas</a>
-    </div>
+    <a asp-action="Index" class="btn btn-primary mb-3">Voltar</a>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -25,8 +22,7 @@
                     <td>@categoria.CAT_ID</td>
                     <td>@categoria.CAT_NOME</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@categoria.CAT_ID" class="btn btn-sm btn-warning">Editar</a>
-                        <a asp-action="Inactivate" asp-route-id="@categoria.CAT_ID" class="btn btn-sm btn-danger">Inativar</a>
+                        <a asp-action="Activate" asp-route-id="@categoria.CAT_ID" class="btn btn-sm btn-success">Ativar</a>
                     </td>
                 </tr>
             }

@@ -11,12 +11,10 @@ namespace ProdutoProntoDigital.Services
     public class ProdutoService
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<ProdutoService> _logger;
 
         public ProdutoService(ApplicationDbContext context, ILogger<ProdutoService> logger)
         {
             _context = context;
-            _logger = logger;
         }
 
         public async Task<List<Produto>> GetAllProducts()
@@ -40,16 +38,13 @@ namespace ProdutoProntoDigital.Services
 
         public async Task CreateProduct(Produto produto)
         {
-            _logger.LogInformation("CreateProduct method called with parameters: {PROD_NOME}, {PROD_PRECO}, {PROD_QTD}, {CAT_ID}",
-                produto.PROD_NOME, produto.PROD_PRECO, produto.PROD_QTD, produto.CAT_ID);
 
             await _context.Database.ExecuteSqlRawAsync("EXEC InsertProduto @p0, @p1, @p2, @p3",
                 produto.PROD_NOME, produto.PROD_PRECO, produto.PROD_QTD, produto.CAT_ID);
 
-            _logger.LogInformation("Product inserted into database");
         }
 
-        public async Task<List<Categoria>> GetAllCategories()
+        public async Task<List<Categoria>> GetAllActiveCategorias()
         {
             return await _context.Categorias.ToListAsync();
         }

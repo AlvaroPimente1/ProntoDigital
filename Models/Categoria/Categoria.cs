@@ -10,5 +10,7 @@ namespace ProdutoProntoDigital.Models
 
         [Required]
         public string CAT_NOME { get; set; }
+
+        public bool CAT_STATUS { get; set; } = true;
     }
 }
