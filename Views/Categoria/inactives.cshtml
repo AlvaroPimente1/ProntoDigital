@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<ProdutoProntoDigital.Models.Categoria>
-
+@Html.AntiForgeryToken()
 @{
     ViewData["Title"] = "Categorias Inativas";
 }
 
 <div class="container mt-5">
     <h2>@ViewData["Title"]</h2>
+    <hr />
     <a asp-action="Index" class="btn btn-primary mb-3">Voltar</a>
     <table class="table table-striped">
         <thead>
@@ -18,14 +19,69 @@
         <tbody>
             @foreach (var categoria in Model)
             {
-                <tr>
+                <tr id="categoria-@categoria.CAT_ID">
                     <td>@categoria.CAT_ID</td>
                     <td>@categoria.CAT_NOME</td>
                     <td>
-                        <a asp-action="Activate" asp-route-id="@categoria.CAT_ID" class="btn btn-sm btn-success">Ativar</a>
+                        <button type="button" class="btn btn-sm btn-success" onclick="activateCategoria(@categoria.CAT_ID)">Ativar</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="deleteCategoria(@categoria.CAT_ID)">Excluir</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function activateCategoria(catId) {
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            if (confirm('Tem certeza que deseja ativar esta categoria?')) {
+                $.ajax({
+                    url: '@Url.Action("Activate", "Categoria")',
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: token,
+                        id: catId
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            $('#categoria-' + catId).remove();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Ocorreu um erro ao ativar a categoria.');
+                    }
+                });
+            }
+        }
+
+        function deleteCategoria(catId) {
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            if (confirm('Tem certeza que deseja excluir esta categoria? Todos os produtos associados também serão excluídos.')) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Categoria")',
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: token,
+                        id: catId
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            $('#categoria-' + catId).remove();
+                            alert('Categoria e produtos associados excluídos com sucesso.');
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Ocorreu um erro ao excluir a categoria.');
+                    }
+                });
+            }
+        }
+    </script>
+}

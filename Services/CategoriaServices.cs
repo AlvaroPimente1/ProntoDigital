@@ -24,10 +24,10 @@ namespace ProdutoProntoDigital.Services
                 .ToListAsync();
         }
 
-        public async Task<List<Categoria>>GetAllInactiveCategorias ()
+        public async Task<List<Categoria>> GetAllInactiveCategorias()
         {
             return await _context.Categorias
-                .FromSqlRaw("EXEC [GetAllInactiveCategorias]")
+                .FromSqlRaw("EXEC GetAllInactiveCategorias")
                 .ToListAsync();
         }
 
@@ -51,6 +51,40 @@ namespace ProdutoProntoDigital.Services
             var parameters = new[] { new SqlParameter("@CAT_ID", id) };
             await _context.Database.ExecuteSqlRawAsync(sql, parameters);
         }
+
+        public async Task<Categoria> GetCategoriaById(int id)
+        {
+            var sql = "EXEC GetCategoriaById @CAT_ID";
+            var parameters = new[] { new SqlParameter("@CAT_ID", id) };
+
+            var result = await _context.Categorias
+                .FromSqlRaw(sql, parameters)
+                .ToListAsync(); 
+
+            return result.FirstOrDefault();
+        }
+
+
+        public async Task UpdateCategoria(Categoria categoria)
+        {
+            var sql = "EXEC UpdateCategoria @CAT_ID, @CAT_NOME, @CAT_STATUS";
+            var parameters = new[]
+            {
+                new SqlParameter("@CAT_ID", categoria.CAT_ID),
+                new SqlParameter("@CAT_NOME", categoria.CAT_NOME),
+                new SqlParameter("@CAT_STATUS", categoria.CAT_STATUS)
+            };
+
+            await _context.Database.ExecuteSqlRawAsync(sql, parameters);
+        }
+
+        public async Task DeleteCategoriaAndProducts(int id)
+        {
+            var sql = "EXEC DeleteCategoriaAndProducts @CAT_ID";
+            var parameters = new[] { new SqlParameter("@CAT_ID", id) };
+            await _context.Database.ExecuteSqlRawAsync(sql, parameters);
+        }
+
 
     }
 }

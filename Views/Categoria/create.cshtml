@@ -2,7 +2,8 @@
     ViewData["Title"] = "Create Categoria";
 }
 
-<h1 class="mb-4">Create Categoria</h1> 
+<h2 class="mb-4">Criar Categoria</h2>
+<hr />
 
 <form asp-action="Create" method="post">
     <div class="container">
@@ -10,6 +11,7 @@
             <label for="catNome" class="form-label">Nome da Categoria</label>
             <input type="text" class="form-control" id="catNome" name="catNome" required />
         </div>
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">Cadastrar Categoria</button>
+        <a asp-action="Index" asp-controller="Categoria" class="btn btn-secondary">Cancelar</a>
     </div>
 </form>

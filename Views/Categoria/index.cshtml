@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<ProdutoProntoDigital.Models.Categoria>
-
+@Html.AntiForgeryToken()
 @{
     ViewData["Title"] = "Categorias";
 }
 
-<div class="container mt-5">
-    <h2>@ViewData["Title"]</h2>
-    <div class="d-flex mb-3">
-        <a asp-action="Create" class="btn btn-success mr-3">Nova Categoria</a>
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="container">
+    <div class="d-flex mb-3 mt-3">
+        <a asp-action="Create" class="btn btn-success me-3">Nova Categoria</a>
         <a asp-action="Inactives" class="btn btn-danger">Categorias Inativas</a>
     </div>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nome</th>
                 <th>Ações</th>
             </tr>
@@ -21,15 +21,42 @@
         <tbody>
             @foreach (var categoria in Model)
             {
-                <tr>
-                    <td>@categoria.CAT_ID</td>
+                <tr id="categoria-@categoria.CAT_ID">
                     <td>@categoria.CAT_NOME</td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@categoria.CAT_ID" class="btn btn-sm btn-warning">Editar</a>
-                        <a asp-action="Inactivate" asp-route-id="@categoria.CAT_ID" class="btn btn-sm btn-danger">Inativar</a>
+                        <button class="btn btn-sm btn-danger" onclick="inactivateCategory(@categoria.CAT_ID)">Inativar</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function inactivateCategory(catId) {
+            if (confirm('Tem certeza que deseja inativar esta categoria?')) {
+                $.ajax({
+                    url: '@Url.Action("Inactivate", "Categoria")',
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                        id: catId
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            $('#categoria-' + catId).remove();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Ocorreu um erro ao inativar a categoria.');
+                    }
+                });
+            }
+        }
+    </script>
+}

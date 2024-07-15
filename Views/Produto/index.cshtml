@@ -1,56 +1,65 @@
 ﻿@model IEnumerable<ProdutoProntoDigital.Models.Produto>
-
+@Html.AntiForgeryToken()
 @{
     ViewData["Title"] = "Produtos";
 }
 
-<div class="container mt-5">
-    <div class="col mb-4">
-        <div class="col-md-6">
-            <h2>@ViewData["Title"]</h2>
-        </div>
-        <div class="col-md-6 text-md-right">
-            <a asp-action="Create" class="btn btn-success">Novo Produto</a>
-        </div>
-    </div>
+<h2>@ViewData["Title"]</h2>
+<hr />
 
-    <form asp-action="Index" method="get">
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <input type="text" name="produtoFiltrado" class="form-control" placeholder="Digite sua busca" value="@ViewData["CurrentFilter"]" />
-            </div>
-            <div class="col-md-3 text-md-right">
-                <button type="submit" class="btn btn-primary">Pesquisar</button>
-            </div>
-        </div>
-    </form>
-
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Descrição</th>
-                        <th>Categoria</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var produto in Model)
-                    {
-                        <tr>
-                            <td>@produto.PROD_ID</td>
-                            <td>@produto.PROD_NOME</td>
-                            <td>@produto.NomeCategoria</td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@produto.PROD_ID" class="btn btn-sm btn-warning">Editar</a>
-                                <a asp-action="Delete" asp-route-id="@produto.PROD_ID" class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+<div class="container">
+    <div class="d-flex">
+        <a asp-action="Create" class="btn btn-success mr-3 mb-3">Novo Produto</a>
     </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var produto in Model)
+            {
+                <tr id="produto-@produto.PROD_ID">
+                    <td>@produto.PROD_NOME</td>
+                    <td>@produto.NomeCategoria</td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Produto" asp-route-id="@produto.PROD_ID" class="btn btn-sm btn-warning">Editar</a>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="deleteProduto(@produto.PROD_ID)">Deletar</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function deleteProduto(prodId) {
+            if (confirm('Tem certeza que deseja deletar este produto?')) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Produto")',
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                        id: prodId
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            $('#produto-' + prodId).remove();
+                            alert('Produto deletado com sucesso.');
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Ocorreu um erro ao deletar o produto.');
+                    }
+                });
+            }
+        }
+    </script>
+}
