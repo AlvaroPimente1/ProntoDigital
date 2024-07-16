@@ -2,7 +2,7 @@
 
 namespace ProdutoProntoDigital.Models
 {
-    public class ProdutoCreateViewModel
+    public class ProdutoViewModel
     {
         public int PROD_ID { get; set; }
 

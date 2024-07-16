@@ -18,7 +18,7 @@ namespace ProdutoProntoDigital.Services
             _context = context;
         }
 
-        // Chamando procedure pra CONSULTAR produtos
+        // Executa procedure pra CONSULTAR produtos
         public async Task<List<Produto>> GetAllProducts()
         {
             var produtosDto = await _context.Set<ProdutoDTO>()
@@ -38,7 +38,7 @@ namespace ProdutoProntoDigital.Services
             return produtos;
         }
 
-        // Chamando procedure pra CRIAR produto
+        // Executa procedure pra CRIAR produto
         public async Task CreateProduct(Produto produto)
         {
             var sql = "EXEC InsertProduto @PROD_NOME, @PROD_PRECO, @PROD_QTD, @CAT_ID";
@@ -53,7 +53,7 @@ namespace ProdutoProntoDigital.Services
             await _context.Database.ExecuteSqlRawAsync(sql, parameters);
         }
 
-        // Chama procedura pra CONSULTAR categorias ATIVAS pro dropdown
+        // Executa procedura pra CONSULTAR categorias ATIVAS pro dropdown
         public async Task<List<Categoria>> GetAllActiveCategorias()
         {
             return await _context.Categorias
@@ -61,7 +61,7 @@ namespace ProdutoProntoDigital.Services
                 .ToListAsync();
         }
 
-        // Chama procedure pra DELETAR produto
+        // Executa procedure pra DELETAR produto
         public async Task DeleteProduct(int produtoId)
         {
             var sql = "EXEC DeleteProduto @PROD_ID";
@@ -69,6 +69,7 @@ namespace ProdutoProntoDigital.Services
             await _context.Database.ExecuteSqlRawAsync(sql, parameters);
         }
 
+        // Pegar produto pelo ID
         public async Task<Produto> GetProductById(int id)
         {
             var sql = "EXEC GetProductById @PROD_ID";
@@ -92,6 +93,7 @@ namespace ProdutoProntoDigital.Services
             };
         }
 
+        // Executa procedure pra EDITAR produto
         public async Task UpdateProduct(Produto produto)
         {
             var sql = "EXEC UpdateProduto @PROD_ID, @PROD_NOME, @PROD_PRECO, @PROD_QTD, @CAT_ID";

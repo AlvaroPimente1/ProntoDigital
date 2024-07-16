@@ -16,6 +16,8 @@
             <tr>
                 <th>Descrição</th>
                 <th>Categoria</th>
+                <th>Preço</th>
+                <th>Qtd. Estoque</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -25,6 +27,8 @@
                 <tr id="produto-@produto.PROD_ID">
                     <td>@produto.PROD_NOME</td>
                     <td>@produto.NomeCategoria</td>
+                    <td>R$@produto.PROD_PRECO</td>
+                    <td>@produto.PROD_QTD</td>
                     <td>
                         <a asp-action="Edit" asp-controller="Produto" asp-route-id="@produto.PROD_ID" class="btn btn-sm btn-warning">Editar</a>
                         <button type="button" class="btn btn-sm btn-danger" onclick="deleteProduto(@produto.PROD_ID)">Deletar</button>
@@ -50,7 +54,6 @@
                     success: function (result) {
                         if (result.success) {
                             $('#produto-' + prodId).remove();
-                            alert('Produto deletado com sucesso.');
                         } else {
                             alert(result.message);
                         }

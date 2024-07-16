@@ -1,4 +1,4 @@
-﻿@model ProdutoProntoDigital.Models.ProdutoCreateViewModel
+﻿@model ProdutoProntoDigital.Models.ProdutoViewModel
 
 @{
     ViewData["Title"] = "Editar Produto";
@@ -13,17 +13,17 @@
     <div class="container">
         <div class="form-group mb-3">
             <label asp-for="PROD_NOME" class="control-label">Nome do Produto</label>
-            <input asp-for="PROD_NOME" class="form-control" />
+            <input asp-for="PROD_NOME" class="form-control" required />
             <span asp-validation-for="PROD_NOME" class="text-danger"></span>
         </div>
         <div class="form-group mb-3">
             <label asp-for="PROD_PRECO" class="control-label">Preço do Produto</label>
-            <input asp-for="PROD_PRECO" class="form-control" />
+            <input asp-for="PROD_PRECO" class="form-control" type="number" step="0.01" required />
             <span asp-validation-for="PROD_PRECO" class="text-danger"></span>
         </div>
         <div class="form-group mb-3">
             <label asp-for="PROD_QTD" class="control-label">Quantidade do Produto</label>
-            <input asp-for="PROD_QTD" class="form-control" />
+            <input asp-for="PROD_QTD" class="form-control" required />
             <span asp-validation-for="PROD_QTD" class="text-danger"></span>
         </div>
         <div class="form-group mb-3">

@@ -11,12 +11,12 @@
         <form asp-action="Edit" method="post">
             <div class="form-group">
                 <label asp-for="CAT_NOME" class="control-label"></label>
-                <input asp-for="CAT_NOME" class="form-control" />
+                <input asp-for="CAT_NOME" class="form-control" required />
                 <span asp-validation-for="CAT_NOME" class="text-danger"></span>
             </div>
             <div class="form-group mt-3">
                 <input type="hidden" asp-for="CAT_ID" />
-                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" required />
                 <a asp-action="Index" asp-controller="Categoria" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>

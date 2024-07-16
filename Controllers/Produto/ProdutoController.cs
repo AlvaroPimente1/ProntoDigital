@@ -45,7 +45,7 @@ namespace ProdutoProntoDigital.Controllers
         // Método para criar um novo produto
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProdutoCreateViewModel produtoViewModel)
+        public async Task<IActionResult> Create(ProdutoViewModel produtoViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -147,7 +147,7 @@ namespace ProdutoProntoDigital.Controllers
                     Text = c.CAT_NOME
                 }).ToList();
 
-                var produtoViewModel = new ProdutoCreateViewModel
+                var produtoViewModel = new ProdutoViewModel
                 {
                     PROD_ID = produto.PROD_ID,
                     PROD_NOME = produto.PROD_NOME,
@@ -169,7 +169,7 @@ namespace ProdutoProntoDigital.Controllers
         // Método para editar um produto
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(ProdutoCreateViewModel produtoViewModel)
+        public async Task<IActionResult> Edit(ProdutoViewModel produtoViewModel)
         {
             if (ModelState.IsValid)
             {
